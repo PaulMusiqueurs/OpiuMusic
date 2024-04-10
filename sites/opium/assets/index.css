@@ -1,0 +1,126 @@
+@font-face {
+    font-family: 'Plunct';
+    src: url('../fonts/Plunct.otf') format('truetype');
+    /* Ajoutez des règles pour les autres variants de la police si nécessaire */
+}
+
+body {
+    font-family: 'Plunct', sans-serif;
+}
+
+/* Style de la barre de navigation */
+#navbar {
+    background: linear-gradient(to left, red, green); /* Dégradé de rouge à vert */
+    padding: 15px 20px; /* Ajuster le padding pour élargir le bandeau */
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+/* Style du titre "OpiuMusique" */
+#logo {
+    font-size: 24px;
+    font-weight: bold;
+}
+/* Style des boutons dans la barre de navigation */
+#navbar button {
+    margin-left: 10px;
+    background-color: transparent;
+    border: none;
+    color: white;
+    cursor: pointer;
+}
+/* Style pour les liens du bandeau */
+#navbar a {
+    text-decoration: none;
+    color: white;
+}
+/* Style pour le bouton Admin */
+#admin-btn {
+    background-color: #333; /* Couleur de fond pour le bouton admin */
+}
+
+/* Style pour la liste d'objets */
+.objets-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+.col {
+    width: 30%;
+    margin-bottom: 20px;
+    text-align: center;
+}
+.music-link {
+    text-decoration: none;
+    color: black;
+}
+.objet-img {
+    width: 50%; /* Réduire la largeur de l'image à 60% */
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+
+/* Style pour agrandir légèrement l'image de la musique lors du survol */
+.objet-img:hover {
+    transform: scale(1.05); /* Augmenter la taille de l'image de 5% */
+    transition: transform 0.3s ease; /* Ajouter une transition fluide */
+}
+
+/* Style pour le titre et l'artiste */
+.title {
+    font-family: 'Plunct';
+    color: #000000;
+    font-size: 30px;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.artist {
+    color: #252525; /* Couleur de texte pour l'artiste */
+    font-family: 'Plunct';
+    font-size: 25px;
+}
+
+.feat {
+    font-family: 'Plunct';
+    font-style: italic;
+    font-size: 20px;
+    color: #454545; /* Couleur de texte pour le featuring */
+}
+
+/* Style pour la pagination */
+.pagination-container {
+    text-align: center;
+    margin-top: 20px; /* Espacement par rapport au contenu précédent */
+}
+
+.pagination {
+    display: inline-block;
+    padding: 5px;
+}
+
+.pagination a, .pagination span {
+    display: inline-block;
+    padding: 5px 10px;
+    margin: 0 3px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    text-decoration: none;
+    color: #333;
+}
+
+.pagination a:hover {
+    background-color: #f0f0f0;
+}
+
+.pagination span {
+    background-color: #f0f0f0;
+    cursor: default;
+}
+
+.current-page {
+    background-color: #007bff;
+    color: #fff;
+    border: 1px solid #007bff;
+}

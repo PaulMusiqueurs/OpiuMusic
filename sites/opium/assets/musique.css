@@ -1,0 +1,62 @@
+/* Ajout d'un fond noir à la page */
+body {
+    background-color: #000; /* Fond noir */
+    color: #fff; /* Texte blanc pour un meilleur contraste */
+}
+
+/* Container principale */
+.container {
+    display: flex;
+    flex-direction: column; /* Pour afficher les éléments en colonne */
+    align-items: center; /* Pour centrer horizontalement les éléments */
+    border: 2px solid #ccc; /* Bordure autour de la container */
+    padding: 20px; /* Espacement à l'intérieur de la container */
+}
+
+/* Partie gauche */
+.left {
+    max-width: 33%; /* La partie gauche occupe 1/3 de la largeur */
+    text-align: center; /* Centrage horizontal */
+    margin-bottom: 20px; /* Espacement en bas de la partie gauche */
+}
+
+.cover-image {
+    width: 100%; /* La largeur de l'image occupe toute la largeur de son conteneur */
+    margin-bottom: 20px; /* Espacement en bas de l'image */
+}
+
+/* Liens des plateformes */
+.links {
+    display: flex;
+    justify-content: space-between; /* Espacement égal entre les icônes */
+}
+
+.links a {
+    display: inline-block;
+}
+
+.links img {
+    width: 30px; /* Taille des icônes */
+}
+
+/* Partie droite */
+.right {
+    text-align: center; /* Centrage horizontal */
+    margin-bottom: 20px; /* Espacement en bas de la partie droite */
+}
+
+/* Titre */
+.right h1 {
+    margin-bottom: 10px; /* Espacement en bas du titre */
+}
+
+/* Informations */
+.right p {
+    margin-bottom: 5px; /* Espacement en bas des paragraphes */
+}
+
+/* Bouton de retour */
+.button {
+    display: block;
+    margin-top: auto; /* Pour pousser le bouton tout en bas */
+}

@@ -1,0 +1,58 @@
+body {
+    background-color: #222; /* Couleur de fond sombre */
+    color: #fff; /* Couleur du texte */
+    font-family: Arial, sans-serif; /* Police de caractères */
+}
+
+h1 {
+    text-align: center; /* Centrer le titre */
+}
+
+form {
+    max-width: 600px; /* Largeur maximale du formulaire */
+    margin: 0 auto; /* Centrer le formulaire horizontalement */
+    padding: 20px; /* Ajouter un peu d'espace autour du formulaire */
+    background-color: #333; /* Couleur de fond du formulaire */
+    border-radius: 10px; /* Coins arrondis */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* Ombre */
+}
+
+label {
+    display: block; /* Afficher chaque label sur une nouvelle ligne */
+    margin-bottom: 10px; /* Ajouter un peu d'espace entre les labels */
+}
+
+input[type="text"],
+input[type="file"],
+input[type="submit"] {
+    width: 97%; /* Largeur de l'élément de formulaire */
+    padding: 10px; /* Ajouter un peu de remplissage */
+    margin-bottom: 15px; /* Ajouter un peu d'espace entre les champs */
+    border: none; /* Supprimer les bordures */
+    border-radius: 5px; /* Coins arrondis */
+    background-color: #444; /* Couleur de fond des champs */
+    color: #fff; /* Couleur du texte */
+}
+
+input[type="submit"] {
+    background-color: #007bff; /* Couleur de fond du bouton */
+    color: #fff; /* Couleur du texte du bouton */
+    cursor: pointer; /* Afficher un curseur au survol */
+}
+
+input[type="submit"]:hover {
+    background-color: #0056b3; /* Couleur de fond du bouton au survol */
+}
+
+input[type="file"] {
+    border: 1px solid #666; /* Ajouter une bordure fine pour indiquer le champ de fichier */
+    background-color: #555; /* Couleur de fond des champs de fichier */
+}
+
+input[type="file"]:focus {
+    outline: none; /* Supprimer la bordure de focus */
+}
+
+.error-message {
+    color: #ff5050; /* Couleur du message d'erreur */
+}

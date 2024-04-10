@@ -1,0 +1,51 @@
+version: "3"
+
+services:
+  #apache
+  apache:
+    build:
+      context: ./build_php
+      dockerfile: Dockerfile
+    image: myphp
+    ports:
+      - "80:80"
+    volumes:
+      - ./sites:/var/www/html
+    networks:
+      - mysql-phpmyadmin
+
+  # Database
+  db:
+    build:
+      context: ./build_mariadb
+      dockerfile: Dockerfile
+    image: mymariadb
+    volumes:
+      - db_data:/var/lib/mysql
+    restart: always
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+    networks:
+      - mysql-phpmyadmin
+
+  # phpmyadmin
+  phpmyadmin:
+    depends_on:
+      - db
+    image: phpmyadmin
+    restart: always
+    ports:
+      - "8090:80"
+    environment:
+      PMA_HOST: db
+      MYSQL_ROOT_PASSWORD: password
+    networks:
+      - mysql-phpmyadmin
+
+networks:
+  mysql-phpmyadmin:
+
+volumes:
+  db_data:
