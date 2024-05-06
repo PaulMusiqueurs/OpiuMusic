@@ -52,13 +52,22 @@ $musique = $stmt->fetch(PDO::FETCH_ASSOC);
     <div class="right">
         <h1><?php echo $musique['title_song']; ?></h1>
         <p><?php echo $musique['artist_song']; ?></p>
-        <?php if (!empty($musique['feat_song'])) echo '<p>Feat: ' . $musique['feat_song'] . '</p>'; ?>
-        <?php if (!empty($musique['description_song'])) echo '<p>' . $musique['description_song'] . '</p>'; ?>
-        
+        <?php if (!empty($musique['feat_song'])): ?>
+            <p>Feat : <?php echo $musique['feat_song']; ?></p>
+        <?php endif; ?>
+        <?php if (!empty($musique['description_song'])): ?>
+            <p><?php echo $musique['description_song']; ?></p>
+        <?php endif; ?>
+        <?php if (!empty($musique['time_song'])): ?>
+            <p>Durée : <?php echo $musique['time_song']; ?></p>
+        <?php endif; ?>
+        <?php if (!empty($musique['release_song'])): ?>
+            <p>Sortie le <?php echo $musique['release_song']; ?></p>
+        <?php endif; ?>
+    
         <!-- Bouton de retour -->
         <a href="index.php" class="button">Retour</a>
     </div>
-</div>
 
 </body>
 </html>

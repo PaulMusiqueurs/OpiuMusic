@@ -98,6 +98,7 @@ body {
 
 /* Style pour la liste d'objets */
 .objets-container {
+    margin-top: 20px;
     display: flex;
     flex-wrap: wrap;
     justify-content: space-around;

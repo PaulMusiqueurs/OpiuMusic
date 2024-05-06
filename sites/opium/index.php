@@ -1,22 +1,73 @@
+<?php
+// Inclure le fichier de connexion à la base de données
+include("includes/connectBDD.php");
+
+// Récupération de la connexion à la base de données
+$connexion = connecterBaseDeDonnees();
+
+// Vérifier si la connexion est établie avec succès
+if (!$connexion) {
+    die("Impossible de se connecter à la base de données.");
+}
+
+// Définir le nombre d'éléments par page
+$elements_par_page = 9;
+
+// Déterminer le numéro de la page à afficher
+$num_page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+if ($num_page < 1) {
+    $num_page = 1;
+}
+$debut = ($num_page - 1) * $elements_par_page;
+
+// Définir les valeurs autorisées pour `sort_by` et `order`
+$valid_sort_columns = ['id_song', 'title_song', 'artist_song', 'time_song', 'release_song'];
+$valid_orders = ['asc', 'desc'];
+
+// Filtrer et valider les paramètres `sort_by` et `order`
+$sort_by = isset($_GET['sort_by']) && in_array($_GET['sort_by'], $valid_sort_columns) ? $_GET['sort_by'] : 'id_song';
+$order = isset($_GET['order']) && in_array($_GET['order'], $valid_orders) ? $_GET['order'] : 'desc';
+
+// Préparation de la requête SQL avec les paramètres filtrés
+$sql = "SELECT * FROM musique ORDER BY $sort_by $order LIMIT :debut, :elements_par_page";
+$stmt = $connexion->prepare($sql);
+$stmt->bindValue(':debut', $debut, PDO::PARAM_INT);
+$stmt->bindValue(':elements_par_page', $elements_par_page, PDO::PARAM_INT);
+
+// Exécuter la requête et récupérer les résultats
+$stmt->execute();
+
+// Création d'un tableau pour stocker les données des musiques
+$musiques = [];
+
+// Parcourir les résultats et les ajouter au tableau
+while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+    $musique = [
+        'id' => $row['id_song'],
+        'title' => $row['title_song'],
+        'artist' => $row['artist_song'],
+        'cover' => $row['cover_song'],
+        'feat' => $row['feat_song']
+    ];
+    $musiques[] = $musique;
+}
+?>
+
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta http-equiv="content-type" content="text/html; charset=utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="assets/index.css">
     <title>OpiuMusique</title>
+    <link rel="stylesheet" href="assets/index.css">
 </head>
 
 <body>
-
     <!-- Barre de navigation -->
     <div id="navbar">
         <div id="logo">OpiuMusique</div>
 
-        <!-- Les boutons de gauche -->
+        <!-- Boutons de gauche -->
         <div id="left-buttons">
             <a href="#"><button>Album</button></a>
             <a href="#"><button>Artistes</button></a>
@@ -26,7 +77,7 @@
         <!-- Bouton "Trier" avec menu déroulant -->
         <div id="dropdown">
             <button id="sort-btn">Trier</button>
-            <div id="dropdown-content">
+            <div id="dropdown-content" style="display: none;">
                 <a href="#" data-sort="id_song" data-order="desc">Date d'ajout</a>
                 <a href="#" data-sort="title_song" data-order="asc">Titre</a>
                 <a href="#" data-sort="artist_song" data-order="asc">Artiste</a>
@@ -37,62 +88,17 @@
             </div>
         </div>
 
-        <!-- Les boutons de droite -->
+        <!-- Boutons de droite -->
         <div id="right-buttons">
             <a href="#"><button>Contact</button></a>
             <a href="crud_son.php"><button id="admin-btn">Admin</button></a>
         </div>
     </div>
 
+    <!-- Espace entre la barre de navigation et le contenu -->
+    <div style="height: 20px;"></div>
+
     <!-- Contenu -->
-    <h1> </h1>
-
-    <?php
-    // Inclure le fichier de connexion à la base de données
-    include("includes/connectBDD.php");
-
-    // Récupération de la connexion à la base de données
-    $connexion = connecterBaseDeDonnees();
-
-    // Vérifier si la connexion est établie avec succès
-    if (!$connexion) {
-        die("Impossible de se connecter à la base de données.");
-    }
-
-    // Définir le nombre d'éléments par page
-    $elements_par_page = 9;
-
-    // Déterminer le numéro de la page à afficher
-    $num_page = isset($_GET['page']) ? $_GET['page'] : 1;
-    $debut = ($num_page - 1) * $elements_par_page;
-
-    // Récupérer les paramètres de tri de l'URL
-    $sort_by = isset($_GET['sort_by']) ? $_GET['sort_by'] : 'id_song'; // Par défaut, trier par date d'ajout
-    $order = isset($_GET['order']) ? $_GET['order'] : 'desc'; // Par défaut, ordre décroissant
-
-    // Modifiez la requête SQL pour inclure le tri choisi par l'utilisateur
-    $sql = "SELECT * FROM musique ORDER BY $sort_by $order LIMIT $debut, $elements_par_page";
-    $result = $connexion->query($sql);
-
-    // Création d'un tableau pour stocker les données des musiques
-    $musiques = array();
-
-    // Vérifier si des musiques ont été récupérées avec succès
-    if ($result) {
-        while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
-            $musique = array(
-                'id' => $row['id_song'],
-                'title' => $row['title_song'],
-                'artist' => $row['artist_song'],
-                'cover' => $row['cover_song'],
-                'feat' => $row['feat_song']
-            );
-            $musiques[] = $musique;
-        }
-    }
-    ?>
-
-    <!-- Affichage des musiques -->
     <div class="objets-container">
         <?php
         foreach ($musiques as $musique) {
@@ -138,38 +144,57 @@
 
     <!-- Script JavaScript -->
     <script>
-        // Gérer l'affichage du menu déroulant
-        document.getElementById("sort-btn").addEventListener("click", function() {
-            const dropdownContent = document.getElementById("dropdown-content");
-            dropdownContent.style.display = dropdownContent.style.display === "none" ? "block" : "none";
-        });
+    // Gérer l'affichage du menu déroulant
+    document.getElementById("sort-btn").addEventListener("click", function() {
+        const dropdownContent = document.getElementById("dropdown-content");
+    dropdownContent.style.display = dropdownContent.style.display === "none" ? "block" : "none";
+    });
 
-        // Gérer les clics sur les options du menu déroulant
-        document.querySelectorAll("#dropdown-content a").forEach(function(link) {
-            link.addEventListener("click", function(event) {
-                event.preventDefault();
-                const sortBy = link.getAttribute("data-sort");
-                const currentOrder = "<?php echo $order; ?>";
-                let order = link.getAttribute("data-order");
+    // Gérer les clics sur les options du menu déroulant
+    document.querySelectorAll("#dropdown-content a").forEach(function(link) {
+        link.addEventListener("click", function(event) {
+            event.preventDefault();
 
-                if (order === "toggle") {
-                    order = currentOrder === "asc" ? "desc" : "asc";
-                }
+    // Récupérer les paramètres `sort_by` et `order` de l'URL actuelle
+    const currentSortBy = "<?php echo $sort_by; ?>";
+    const currentOrder = "<?php echo $order; ?>";
 
-                window.location.href = "?sort_by=" + sortBy + "&order=" + order + "&page=<?php echo $num_page; ?>";
-            });
-        });
+    // Définir `sortBy` et `order` selon les attributs de l'option cliquée
+    let sortBy = link.getAttribute("data-sort");
+    let order = link.getAttribute("data-order");
 
-        // Masquer le menu déroulant en dehors des clics
-        document.addEventListener("click", function(event) {
-            const dropdownContent = document.getElementById("dropdown-content");
-            const sortBtn = document.getElementById("sort-btn");
-            if (event.target !== sortBtn && event.target !== dropdownContent) {
-                dropdownContent.style.display = "none";
-            }
-        });
+    // Si "inverser l'ordre" est cliqué, inverser l'ordre actuel
+    if (order === "toggle") {
+        order = currentOrder === "asc" ? "desc" : "asc";
+        // Garder la colonne de tri actuelle
+        sortBy = currentSortBy;
+    } else {
+        // Si `sortBy` est indéfini, utiliser `currentSortBy`
+        if (!sortBy) {
+            sortBy = currentSortBy;
+        }
+        // Si `order` est indéfini, utiliser `currentOrder`
+        if (!order) {
+            order = currentOrder;
+        }
+    }
+
+    // Construire la nouvelle URL avec les paramètres de tri et de pagination
+    const newUrl = `?sort_by=${sortBy}&order=${order}&page=<?php echo $num_page; ?>`;
+    window.location.href = newUrl;
+    });
+});
+
+    // Masquer le menu déroulant en dehors des clics
+    document.addEventListener("click", function(event) {
+        const dropdownContent = document.getElementById("dropdown-content");
+        const sortBtn = document.getElementById("sort-btn");
+        if (event.target !== sortBtn && event.target !== dropdownContent) {
+            dropdownContent.style.display = "none";
+        }
+});
+
     </script>
-
 </body>
 
 </html>
