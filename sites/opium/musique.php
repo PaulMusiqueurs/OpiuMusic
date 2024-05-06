@@ -51,9 +51,9 @@ $musique = $stmt->fetch(PDO::FETCH_ASSOC);
     </div>
     <div class="right">
         <h1><?php echo $musique['title_song']; ?></h1>
-        <p>Artiste: <?php echo $musique['artist_song']; ?></p>
+        <p><?php echo $musique['artist_song']; ?></p>
         <?php if (!empty($musique['feat_song'])) echo '<p>Feat: ' . $musique['feat_song'] . '</p>'; ?>
-        <?php if (!empty($musique['description_song'])) echo '<p>Description: ' . $musique['description_song'] . '</p>'; ?>
+        <?php if (!empty($musique['description_song'])) echo '<p>' . $musique['description_song'] . '</p>'; ?>
         
         <!-- Bouton de retour -->
         <a href="index.php" class="button">Retour</a>

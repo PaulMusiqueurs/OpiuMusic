@@ -1,43 +1,99 @@
 @font-face {
     font-family: 'Plunct';
     src: url('../fonts/Plunct.otf') format('truetype');
-    /* Ajoutez des règles pour les autres variants de la police si nécessaire */
 }
 
 body {
+    background-color: #000; /* Fond noir */
     font-family: 'Plunct', sans-serif;
+    color: white;
 }
 
 /* Style de la barre de navigation */
 #navbar {
     background: linear-gradient(to left, red, green); /* Dégradé de rouge à vert */
     padding: 15px 20px; /* Ajuster le padding pour élargir le bandeau */
-    color: white;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    color: white;
 }
+
 /* Style du titre "OpiuMusique" */
 #logo {
+    color: red;
     font-size: 24px;
     font-weight: bold;
 }
+
+/* Les boutons à gauche de la barre de navigation */
+#left-buttons {
+    display: flex;
+    gap: 10px;
+}
+
+/* Les boutons à droite de la barre de navigation */
+#right-buttons {
+    display: flex;
+    gap: 10px;
+}
+
 /* Style des boutons dans la barre de navigation */
 #navbar button {
-    margin-left: 10px;
     background-color: transparent;
     border: none;
     color: white;
     cursor: pointer;
+    padding: 8px 15px; /* Ajuster le padding pour un meilleur design */
+    margin-left: 10px; /* Espace entre les boutons */
 }
+
 /* Style pour les liens du bandeau */
 #navbar a {
     text-decoration: none;
     color: white;
 }
+
 /* Style pour le bouton Admin */
 #admin-btn {
     background-color: #333; /* Couleur de fond pour le bouton admin */
+    padding: 8px 15px; /* Ajuster le padding */
+}
+
+/* Style pour le bouton "Trier" et son menu déroulant */
+#dropdown {
+    position: relative;
+    /* Positionner le bouton "Trier" en relation avec son contenu */
+}
+
+#sort-btn {
+    padding: 8px 15px;
+    background-color: transparent;
+    border: none;
+    color: white;
+    cursor: pointer;
+}
+
+#dropdown-content {
+    display: none; /* Masquer le menu déroulant par défaut */
+    position: absolute; /* Position absolue pour le menu déroulant */
+    right: 0; /* Aligner à droite */
+    top: 100%; /* En dessous du bouton "Trier" */
+    background-color: white; /* Couleur de fond blanche */
+    min-width: 150px; /* Largeur minimale pour le menu déroulant */
+    border-radius: 3px; /* Bordures arrondies */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Ombre */
+}
+
+#dropdown-content a {
+    display: block;
+    padding: 8px 15px;
+    text-decoration: none;
+    color: black; /* Couleur de texte noire */
+}
+
+#dropdown-content a:hover {
+    background-color: #f0f0f0; /* Couleur de fond grise lors du survol */
 }
 
 /* Style pour la liste d'objets */
@@ -46,38 +102,39 @@ body {
     flex-wrap: wrap;
     justify-content: space-around;
 }
+
 .col {
     width: 30%;
     margin-bottom: 20px;
     text-align: center;
 }
+
 .music-link {
     text-decoration: none;
     color: black;
 }
+
 .objet-img {
-    width: 50%; /* Réduire la largeur de l'image à 60% */
+    width: 50%; /* Réduire la largeur de l'image */
     border-radius: 5px;
     margin-bottom: 10px;
 }
 
-/* Style pour agrandir légèrement l'image de la musique lors du survol */
 .objet-img:hover {
-    transform: scale(1.05); /* Augmenter la taille de l'image de 5% */
-    transition: transform 0.3s ease; /* Ajouter une transition fluide */
+    transform: scale(1.05); /* Agrandir légèrement l'image au survol */
+    transition: transform 0.3s ease; /* Transition fluide */
 }
 
-/* Style pour le titre et l'artiste */
 .title {
     font-family: 'Plunct';
-    color: #000000;
+    color: white; /* Texte blanc pour meilleur contraste */
     font-size: 30px;
     font-weight: bold;
     margin-bottom: 5px;
 }
 
 .artist {
-    color: #252525; /* Couleur de texte pour l'artiste */
+    color: white;
     font-family: 'Plunct';
     font-size: 25px;
 }
@@ -86,10 +143,9 @@ body {
     font-family: 'Plunct';
     font-style: italic;
     font-size: 20px;
-    color: #454545; /* Couleur de texte pour le featuring */
+    color: #b0b0b0; /* Couleur de texte pour le featuring */
 }
 
-/* Style pour la pagination */
 .pagination-container {
     text-align: center;
     margin-top: 20px; /* Espacement par rapport au contenu précédent */
@@ -107,7 +163,7 @@ body {
     border: 1px solid #ccc;
     border-radius: 3px;
     text-decoration: none;
-    color: #333;
+    color: #7d7d7d;
 }
 
 .pagination a:hover {

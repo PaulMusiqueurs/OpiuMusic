@@ -1,3 +1,8 @@
+@font-face {
+    font-family: 'Plunct';
+    src: url('../fonts/Plunct.otf') format('truetype');
+}
+
 /* Ajout d'un fond noir à la page */
 body {
     background-color: #000; /* Fond noir */
@@ -47,11 +52,13 @@ body {
 
 /* Titre */
 .right h1 {
+    font-family: 'Plunct', sans-serif;
     margin-bottom: 10px; /* Espacement en bas du titre */
 }
 
 /* Informations */
 .right p {
+    font-family: 'Plunct', sans-serif;
     margin-bottom: 5px; /* Espacement en bas des paragraphes */
 }
 
