@@ -65,6 +65,8 @@ $result_albums = $connexion->query($sql_albums);
 
 <a href="add_son.php"><button>Ajouter Musique</button></a>
 
+<a href="add_album.php"><button>Ajouter Album</button></a>
+
 <?php
 // Utilisation de rowCount() pour obtenir le nombre de lignes retournées
 if ($result->rowCount() > 0) {

@@ -14,7 +14,6 @@ body {
     display: flex;
     flex-direction: column; /* Pour afficher les éléments en colonne */
     align-items: center; /* Pour centrer horizontalement les éléments */
-    border: 2px solid #ccc; /* Bordure autour de la container */
     padding: 20px; /* Espacement à l'intérieur de la container */
 }
 

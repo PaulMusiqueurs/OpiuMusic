@@ -1,47 +1,61 @@
 <?php
+
+// Configurez la session de manière sécurisée
+ini_set('session.cookie_httponly', 1);
+ini_set('session.cookie_secure', 1);
+ini_set('session.use_strict_mode', 1);
+
+
 session_start();
 
 // Inclure le fichier de connexion à la base de données
 include("includes/connectBDD.php");
 
-// Initialiser les variables pour stocker les erreurs
+// Initialisez les variables pour stocker les erreurs
 $emailErr = $passwordErr = "";
 $email = $password = "";
 
-// Vérifier si le formulaire a été soumis
+// Vérifiez si le formulaire a été soumis
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Valider et récupérer les données du formulaire
+    // Validez et récupérez les données du formulaire
     if (empty($_POST["email"])) {
-        $emailErr = "L'adresse email est requise";
+        $emailErr = "L'adresse e-mail est requise";
     } else {
-        $email = htmlspecialchars($_POST["email"]);
+        // Nettoyez et validez l'email
+        $email = filter_var($_POST["email"], FILTER_SANITIZE_EMAIL);
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            $emailErr = "Vos identifiants sont incorrectes";
+            $email = "";
+        }
     }
 
     if (empty($_POST["password"])) {
         $passwordErr = "Le mot de passe est requis";
     } else {
+        // Nettoyez le mot de passe
         $password = htmlspecialchars($_POST["password"]);
     }
 
-    // Vérifier les informations d'identification dans la base de données
+    // Vérifiez les informations d'identification dans la base de données
     if (!empty($email) && !empty($password)) {
         $connexion = connecterBaseDeDonnees();
         $requete = $connexion->prepare("SELECT * FROM authentifier WHERE admin_mail = ?");
-        $requete->execute(array($email));
+        $requete->execute([$email]);
         $result = $requete->fetch(PDO::FETCH_ASSOC);
 
-        // Vérifier si l'utilisateur existe dans la base de données
+        // Vérifiez si l'utilisateur existe dans la base de données
         if ($result) {
             $hashed_password = $result["admin_pswd"];
 
-            // Vérifier si le mot de passe correspond au mot de passe hashé dans la base de données
+            // Vérifiez si le mot de passe correspond au mot de passe hashé dans la base de données
             if (password_verify($password, $hashed_password)) {
-                // Démarrer la session et définir la variable de session loggedin à true
+                // Démarrez la session et définissez les variables de session
+                session_regenerate_id(); // Empêche la fixation de session
                 $_SESSION["loggedin"] = true;
-                $_SESSION["admin"] = true; // Définir l'administrateur comme connecté
+                $_SESSION["admin"] = true;
                 $_SESSION["email"] = $email;
 
-                // Rediriger vers la page crud_son.php si l'utilisateur est authentifié
+                // Redirigez vers la page `crud_son.php` si l'utilisateur est authentifié
                 header("location: crud_son.php");
                 exit();
             } else {
@@ -51,9 +65,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $emailErr = "Votre identifiant ou votre mot de passe n'est pas valide";
         }
 
-        // Fermer la connexion et la requête
-        $requete->closeCursor(); // Libère les ressources associées à la requête
-        $connexion = null; // Ferme la connexion à la base de données
+        // Fermez la requête et la connexion
+        $requete->closeCursor(); // Libérez les ressources associées à la requête
+        $connexion = null; // Fermez la connexion à la base de données
     }
 }
 ?>
@@ -62,7 +76,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'">
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <meta http-equiv="X-Frame-Options" content="DENY">
+    <meta http-equiv="X-XSS-Protection" content="1; mode=block">
     <title>Connexion Admin</title>
 </head>
 <body>
@@ -70,12 +87,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
         <label for="email">Adresse e-mail :</label><br>
-        <input type="email" id="email" name="email" required>
-        <span class="error"><?php echo $emailErr; ?></span><br><br>
+        <input type="email" id="email" name="email" required value="<?php echo htmlspecialchars($email); ?>">
+        <span class="error"><?php echo htmlspecialchars($emailErr); ?></span><br><br>
 
         <label for="password">Mot de passe :</label><br>
         <input type="password" id="password" name="password" required>
-        <span class="error"><?php echo $passwordErr; ?></span><br><br>
+        <span class="error"><?php echo htmlspecialchars($passwordErr); ?></span><br><br>
 
         <input type="submit" value="Se connecter">
     </form>

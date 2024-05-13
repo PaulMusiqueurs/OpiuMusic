@@ -2,11 +2,7 @@
 session_start();
 
 // Vérifier si l'utilisateur est connecté
-if (!isset($_SESSION['admin']) || $_SESSION['admin'] !== true) {
-    // Rediriger vers la page de connexion
-    header("Location: connexion.php");
-    exit();
-}
+
 
 // Inclure le fichier de connexion à la base de données
 include("includes/connectBDD.php");
