@@ -36,10 +36,21 @@ if(isset($_GET['delete_id'])) {
 $sql = "SELECT * FROM musique";
 $result = $connexion->query($sql);
 
-// Récupérer tous les albums depuis la base de données
-$sql_albums = "SELECT * FROM album";
+// Récupérer tous les albums depuis la base de données avec les titres des chansons associées
+$sql_albums = "
+    SELECT 
+        a.*, 
+        GROUP_CONCAT(m.title_song SEPARATOR ', ') as titles
+    FROM 
+        album a
+    LEFT JOIN 
+        album_musique am ON a.id_album = am.id_album
+    LEFT JOIN 
+        musique m ON am.id_song = m.id_song
+    GROUP BY 
+        a.id_album
+";
 $result_albums = $connexion->query($sql_albums);
-
 ?>
 
 <!DOCTYPE html>
@@ -172,17 +183,20 @@ if ($result->rowCount() > 0) {
         echo "<th>ID</th>";
         echo "<th>Titre</th>";
         echo "<th>Artiste</th>";
+        echo "<th>Type</th>";
         echo "<th>Durée</th>";
         echo "<th>Description</th>";
         echo "<th>Image</th>";
-        echo "<th>Date</th>";
+        echo "<th>Date de sortie</th>";
         echo "<th>Nombre de titres</th>";
+        echo "<th>Musiques</th>";
         echo "<th>Soundcloud</th>";
         echo "<th>Spotify</th>";
         echo "<th>Deezer</th>";
         echo "<th>Amazon</th>";
         echo "<th>Apple</th>";
         echo "<th>YouTube Music</th>";
+        echo "<th>Actions</th>";
         echo "</tr>";
         
         while ($row = $result_albums->fetch(PDO::FETCH_ASSOC)) {
@@ -190,40 +204,46 @@ if ($result->rowCount() > 0) {
             echo "<td>" . $row["id_album"] . "</td>";
             echo "<td>" . $row["title_album"] . "</td>";
             echo "<td>" . $row["artist_album"] . "</td>";
-            echo "<td>" . $row["duration_album"] . "</td>";
+            echo "<td>" . $row["type_album"] . "</td>";
+            echo "<td>" . $row["time_album"] . "</td>";
             echo "<td>" . $row["description_album"] . "</td>";
             echo "<td><img src='" . $row["cover_album"] . "' width='100' height='100'></td>";
-            echo "<td>" . $row["release_album"] . "</td>";
-            echo "<td>" . $row["track_count"] . "</td>";
+            echo "<td>" . $row["date_album"] . "</td>";
+            echo "<td>" . $row["number_album"] . "</td>";
+            echo "<td>" . $row["titles"] . "</td>";
             echo "<td>";
-            if (!empty($row["soundcloud_link"])) {
-                echo "<a href='" . $row["soundcloud_link"] . "'><button>Soundcloud</button></a>";
+            if (!empty($row["alink_soundcloud"])) {
+                echo "<a href='" . $row["alink_soundcloud"] . "'><button>Soundcloud</button></a>";
             }
             echo "</td>";
             echo "<td>";
-            if (!empty($row["spotify_link"])) {
-                echo "<a href='" . $row["spotify_link"] . "'><button>Spotify</button></a>";
+            if (!empty($row["alink_spotify"])) {
+                echo "<a href='" . $row["alink_spotify"] . "'><button>Spotify</button></a>";
             }
             echo "</td>";
             echo "<td>";
-            if (!empty($row["deezer_link"])) {
-                echo "<a href='" . $row["deezer_link"] . "'><button>Deezer</button></a>";
+            if (!empty($row["alink_deezer"])) {
+                echo "<a href='" . $row["alink_deezer"] . "'><button>Deezer</button></a>";
             }
             echo "</td>";
             echo "<td>";
-            if (!empty($row["amazon_link"])) {
-                echo "<a href='" . $row["amazon_link"] . "'><button>Amazon</button></a>";
+            if (!empty($row["alink_amazon"])) {
+                echo "<a href='" . $row["alink_amazon"] . "'><button>Amazon</button></a>";
             }
             echo "</td>";
             echo "<td>";
-            if (!empty($row["apple_link"])) {
-                echo "<a href='" . $row["apple_link"] . "'><button>Apple</button></a>";
+            if (!empty($row["alink_apple"])) {
+                echo "<a href='" . $row["alink_apple"] . "'><button>Apple</button></a>";
             }
             echo "</td>";
             echo "<td>";
-            if (!empty($row["youtube_link"])) {
-                echo "<a href='" . $row["youtube_link"] . "'><button>YouTube Music</button></a>";
+            if (!empty($row["alink_youtube"])) {
+                echo "<a href='" . $row["alink_youtube"] . "'><button>YouTube Music</button></a>";
             }
+            echo "</td>";
+            echo "<td>";
+            echo "<a href='edit_album.php?id=" . $row["id_album"] . "'>Modifier</a> | ";
+            echo "<a href='?delete_id=" . $row["id_album"] . "' onclick='return confirmDelete();'>Supprimer</a>";
             echo "</td>";
             echo "</tr>";    
         }
