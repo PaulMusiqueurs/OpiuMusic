@@ -6,7 +6,7 @@ body {
 body {
     background-color: black; /* Fond noir */
     font-family: Arial, sans-serif; /* Meilleure police d'écriture */
-    color: white; /* Texte en blanc */
+    color: rgb(255, 255, 255); /* Texte en blanc */
 }
 
 table {
@@ -22,15 +22,15 @@ th, td {
 }
 
 th {
-    background-color: #333; /* Couleur de fond pour les en-têtes de colonne */
+    background-color: #333 !important; /* Couleur de fond pour les en-têtes de colonne */
 }
 
 tr:nth-child(even) {
-    background-color: #222; /* Couleur de fond pour les lignes paires */
+    background-color: #222 !important; /* Couleur de fond pour les lignes paires */
 }
 
 tr:nth-child(odd) {
-    background-color: #111; /* Couleur de fond pour les lignes impaires */
+    background-color: #111 !important; /* Couleur de fond pour les lignes impaires */
 }
 
 img {
@@ -58,4 +58,20 @@ button {
 
 button:hover {
     background-color: #555;
+}
+
+.dataTables_wrapper .dataTables_filter input {
+    border: 1px solid #aaa;
+    border-radius: 3px;
+    padding: 5px;
+    background-color: white !important;
+    margin-left: 3px;
+}
+
+.dataTables_wrapper .dataTables_length select {
+    border: 1px solid #aaa;
+    border-radius: 3px;
+    padding: 5px;
+    background-color: white !important;
+    padding: 4px;
 }

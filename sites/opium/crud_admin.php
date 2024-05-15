@@ -1,5 +1,9 @@
 <?php
 session_start();
+if (!isset($_SESSION['admin']) || $_SESSION['admin'] !== true) {
+    header("Location: connexion_admin.php");
+    exit();
+}
 
 // Vérifier si l'utilisateur est connecté
 

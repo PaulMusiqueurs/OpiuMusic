@@ -1,0 +1,47 @@
+body {
+    background-color: #000;
+    color: #fff;
+    font-family: Arial, sans-serif;
+}
+form {
+    background-color: #333;
+    padding: 20px;
+    border-radius: 10px;
+    max-width: 400px;
+    margin: 50px auto;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    text-align: center; /* Centre le contenu du formulaire */
+}
+label {
+    display: block;
+    margin-bottom: 5px;
+}
+input[type="email"], input[type="password"] {
+    width: 80%; /* Réduit la largeur des champs de saisie */
+    padding: 10px;
+    margin: 0 auto 10px; /* Centre horizontalement avec un auto margin */
+    border: 1px solid #555;
+    border-radius: 5px;
+    background-color: #222;
+    color: #fff;
+    display: block; /* Assure que les inputs sont des blocs pour les marges automatiques */
+}
+input[type="submit"] {
+    background-color: #0066cc;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+input[type="submit"]:hover {
+    background-color: #005bb5;
+}
+.error {
+    color: #ff4d4d;
+}
+h1 {
+    text-align: center;
+    margin-bottom: 20px;
+}
