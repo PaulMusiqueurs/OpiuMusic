@@ -49,19 +49,16 @@ $result_albums = $connexion->query($sql_albums);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Liste OpiuMusique</title>
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
     <link rel="stylesheet" href="assets/crud_son.css">
-    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-    <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
     <script>
+        $(document).ready(function() {
+            $('#musicDataTable').DataTable();
+            $('#albumDataTable').DataTable();
+        });
+
         function confirmDelete() {
             return confirm("Êtes-vous sûr de vouloir supprimer cette musique ?");
         }
-
-        $(document).ready(function() {
-            $('#musicTable table').DataTable();
-            $('#albumTable table').DataTable();
-        });
 
         function toggleDetails(id) {
             var detailsRow = document.getElementById('details-' + id);
@@ -96,7 +93,7 @@ if ($result->rowCount() > 0) {
 <div id="musicTable">
     <?php
     if ($result->rowCount() > 0) {
-        echo "<table>";
+        echo "<table id='musicDataTable' class='display'>";
         echo "<thead><tr>";
         echo "<th>ID</th>";
         echo "<th>Titre</th>";
@@ -108,7 +105,7 @@ if ($result->rowCount() > 0) {
         echo "<th>Image</th>";
         echo "<th>Collaborations</th>";
         echo "<th>Actions</th>";
-        echo "<th>+</th>";  // Nouvelle colonne pour le bouton "+"
+        echo "<th>+</th>";
         echo "</tr></thead><tbody>";
         
         while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
@@ -165,7 +162,7 @@ if ($result->rowCount() > 0) {
     <?php
     if ($result_albums->rowCount() > 0) {
         echo "<h1>Liste des Albums</h1>";
-        echo "<table>";
+        echo "<table id='albumDataTable' class='display'>";
         echo "<thead><tr>";
         echo "<th>ID</th>";
         echo "<th>Titre</th>";
@@ -230,9 +227,9 @@ if ($result->rowCount() > 0) {
             echo "</td>";
             echo "<td>";
             echo "<a href='edit_album.php?id=" . $row["id_album"] . "'>Modifier</a> | ";
-            echo "<a href='?delete_id=" . $row["id_album"] . "' onclick='return confirmDelete();'>Supprimer</a>";
+            echo "<a href='?delete_id_album=" . $row["id_album"] . "' onclick='return confirmDelete();'>Supprimer</a>";
             echo "</td>";
-            echo "</tr>";    
+            echo "</tr>";
         }
         echo "</tbody></table>";
     } else {
