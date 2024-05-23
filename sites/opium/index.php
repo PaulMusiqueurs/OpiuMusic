@@ -69,7 +69,7 @@ while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
 
         <!-- Boutons de gauche -->
         <div id="left-buttons">
-            <a href="#"><button>Album</button></a>
+            <a href="index_album.php"><button>Album</button></a>
             <a href="#"><button>Artistes</button></a>
             <a href="#"><button>Événement</button></a>
         </div>
